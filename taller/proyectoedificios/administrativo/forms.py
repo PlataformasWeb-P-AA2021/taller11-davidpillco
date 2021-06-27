@@ -73,8 +73,8 @@ class DepartamentoForm(ModelForm):
         valor = self.cleaned_data['nomPropietario']
         num_palabras = len(valor.split())
 
-        if num_palabras > 2:
-            raise forms.ValidationError("Ingrese unicamente dos nombre por favor")
+        if num_palabras < 4:
+            raise forms.ValidationError("Ingrese su nombre completo por favor")
         return valor
 
 class DepartamentoEdificioForm(ModelForm):
@@ -93,6 +93,20 @@ class DepartamentoEdificioForm(ModelForm):
         valor = self.cleaned_data['nomPropietario']
         num_palabras = len(valor.split())
 
-        if num_palabras > 2:
-            raise forms.ValidationError("Ingrese unicamente dos nombre por favor")
+        if num_palabras < 4:
+            raise forms.ValidationError("Ingrese su nombre completo por favor")
+        return valor
+
+    # Evaluacion de la cantidad de cuartos
+    def clean_num_cuartos(self):
+        valor = self.cleaned_data['num_cuartos']
+        if (valor) == 0 or (valor) > 7:
+            raise forms.ValidationError("Ingrese un numero de cuartos valido")
+        return valor
+        
+    # Evaluacion del costo
+    def clean_costo(self):
+        valor = self.cleaned_data['costo']
+        if (valor) > 100000:
+            raise forms.ValidationError("Ingrese un costo valido")
         return valor
